@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Distributor Live™</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Global Distributor Live™</div>
+    <nav>
+      <a href="#overview">Overview</a>
+      <a href="#live">Live Session</a>
+      <a href="#order">Order</a>
+      <a href="#admin">Admin</a>
+      <a href="#legal">Legal</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero card" id="overview">
+      <div>
+        <p class="eyebrow">Dubai suppliers → Israeli pet retailers</p>
+        <h1>Live wholesale buying sessions with real order commitment.</h1>
+        <p class="lead">
+          A working operating shell for your first commercial launch: live session, product board,
+          order capture, deposit link, and admin dashboard in one place.
+        </p>
+        <div class="cta-row">
+          <a class="button primary" href="#live">Enter Live Session</a>
+          <a class="button" href="#order">Open Order Form</a>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat"><span id="statProducts">0</span><label>Products loaded</label></div>
+        <div class="stat"><span id="statOrders">0</span><label>Orders saved</label></div>
+        <div class="stat"><span id="statUnits">0</span><label>Units committed</label></div>
+        <div class="stat"><span id="statValue">$0</span><label>Committed value</label></div>
+      </div>
+    </section>
+
+    <section class="grid-2" id="live">
+      <div class="card">
+        <div class="section-head">
+          <h2>Live session</h2>
+          <span class="pill" id="sessionStatus">Scheduled</span>
+        </div>
+        <div class="video-wrap">
+          <iframe id="streamFrame" title="Live Stream" allowfullscreen></iframe>
+        </div>
+        <div class="session-meta">
+          <div>
+            <strong id="sessionTitle">Weekly Dubai Trade Session</strong>
+            <p id="sessionSubtitle">Pet food, litter, hygiene, accessories</p>
+          </div>
+          <a class="button primary" id="joinSessionBtn" target="_blank" rel="noopener">Join live session</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-head">
+          <h2>Current deal board</h2>
+          <span class="pill accent">Live pricing</span>
+        </div>
+        <div id="productBoard" class="product-board"></div>
+      </div>
+    </section>
+
+    <section class="card" id="order">
+      <div class="section-head">
+        <h2>Commit order</h2>
+        <span class="pill">Deposit required</span>
+      </div>
+      <form id="orderForm" class="form-grid">
+        <label>
+          Store name
+          <input required name="storeName" placeholder="Store / chain name" />
+        </label>
+        <label>
+          Contact person
+          <input required name="contactName" placeholder="Buyer full name" />
+        </label>
+        <label>
+          Email
+          <input required type="email" name="email" placeholder="buyer@example.com" />
+        </label>
+        <label>
+          Phone
+          <input required name="phone" placeholder="050-0000000" />
+        </label>
+        <label>
+          Product
+          <select required name="productId" id="productSelect"></select>
+        </label>
+        <label>
+          Quantity
+          <input required type="number" min="1" step="1" name="quantity" id="quantityInput" value="1" />
+        </label>
+        <label>
+          Unit price
+          <input readonly name="unitPrice" id="unitPrice" />
+        </label>
+        <label>
+          Total value
+          <input readonly name="totalValue" id="totalValue" />
+        </label>
+        <label>
+          Deposit %
+          <input readonly name="depositPct" id="depositPct" />
+        </label>
+        <label>
+          Deposit amount
+          <input readonly name="depositAmount" id="depositAmount" />
+        </label>
+        <label class="full">
+          Notes
+          <textarea name="notes" placeholder="Special packing / preferred brand / questions"></textarea>
+        </label>
+        <label class="checkbox full">
+          <input required type="checkbox" name="commitment" />
+          I confirm this is a binding commercial order request subject to the session terms and the deposit requirement.
+        </label>
+        <div class="actions full">
+          <button class="button primary" type="submit">Save order</button>
+          <a class="button" id="payDepositBtn" target="_blank" rel="noopener">Pay deposit</a>
+          <button class="button" type="button" id="exportCsvBtn">Export CSV</button>
+        </div>
+      </form>
+      <div class="helper-text">
+        Saved orders remain in this browser until you connect a webhook / form backend. See README for live deployment.
+      </div>
+    </section>
+
+    <section class="grid-2" id="admin">
+      <div class="card">
+        <div class="section-head">
+          <h2>Admin dashboard</h2>
+          <span class="pill">Local data</span>
+        </div>
+        <div class="stats-grid compact">
+          <div class="stat"><span id="adminOrders">0</span><label>Orders</label></div>
+          <div class="stat"><span id="adminQty">0</span><label>Total units</label></div>
+          <div class="stat"><span id="adminValue">$0</span><label>Total value</label></div>
+          <div class="stat"><span id="adminDeposits">$0</span><label>Deposit due</label></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-head">
+          <h2>Latest orders</h2>
+          <button class="button small" id="clearOrdersBtn" type="button">Clear local orders</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Store</th>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Total</th>
+                <th>Deposit</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="legal">
+      <div class="section-head">
+        <h2>Legal and commercial packs</h2>
+        <span class="pill">Included docs</span>
+      </div>
+      <div class="doc-grid">
+        <a class="doc-card" href="docs/GDL_Legal_Pack_Draft.docx">Legal Pack Draft</a>
+        <a class="doc-card" href="docs/GDL_Full_Power_Blueprint.docx">Full Power Blueprint</a>
+        <a class="doc-card" href="docs/GDL_Full_Power_Strategy_Pack.docx">Strategy Pack</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/config.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
